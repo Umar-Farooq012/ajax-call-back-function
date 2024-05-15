@@ -1,0 +1,28 @@
+declare
+v_id number := apex_application.g_x01;
+v_amount number;
+v_bank varchar2(250);
+v_rec_mode varchar2(50);
+v_cheque_no number ;
+v_cheque_date date;
+v_branch varchar2(100);
+v_station varchar2(100);
+begin
+    select RECEIPT_AMOUNT,BANK,PAYMENT_MODE,CHEQUE_NO,CHEQUE_DATE,BRANCH,STATION
+    into v_amount,v_bank,v_rec_mode,v_cheque_no,v_cheque_date,v_branch,v_station
+    from DGMS_TEMPORARY_RECEIPTS
+    where id = v_id;
+    apex_json.open_object;
+        apex_json.write('success', true);
+        apex_json.write('AMOUNT',v_amount);
+        apex_json.write('BANK',v_bank);
+        apex_json.write('MODE',v_rec_mode);
+        apex_json.write('CHEQUE_NO',v_cheque_no);
+        apex_json.write('CHEQUE_DATE',v_cheque_date);
+        apex_json.write('BRANCH',v_branch);
+        apex_json.write('STATION',v_station);
+    apex_json.close_object;
+    exception when others
+    then
+    null;
+end;
