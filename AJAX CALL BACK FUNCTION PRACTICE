@@ -1,0 +1,52 @@
+declare
+        v_id number := apex_application.g_x01;
+        emp_name varchar2(100);
+        com_name varchar2(250);
+        job_titles varchar2(50);
+        sal number ;
+        city VARCHAR2(100);
+        country varchar2(100);
+        Designation varchar2(100);
+        USER_NAME VARCHAR2(50);
+
+begin
+    select EMPLOYEE_NAME, COMPANY_NAME,  JOB_TITLE, SALARY, CITY, COUNTRY, DESIGNATION, USER_NAME
+    into emp_name , com_name, job_titles, sal, city, country, Designation, USER_NAME
+  from EMPLOYEES_COMPANY
+  where  EMPLOYEE_ID = v_id ;
+    apex_json.open_object;
+      apex_json.write('success', true);
+        apex_json.write('EMPLOYEE_NAME',emp_name);
+      apex_json.write('COMPANY_NAME',com_name);
+      apex_json.write('JOB_TITLE',job_titles);
+       apex_json.write('SALARY',sal);
+         apex_json.write('CITY',city);
+        apex_json.write('COUNTRY',country);
+        apex_json.write('DESIGNATION',Designation);
+       apex_json.write('USER_NAME',USER_NAME);
+    apex_json.close_object;
+    exception when others
+    then
+    null;
+end;
+
+=====================================================
+2ND STEPS 
+
+$('#P63_EMPLOYEE_ID').change(function(){
+    apex.server.process(
+    'Value Get',                        
+    {
+    x01: $v('P63_EMPLOYEE_ID')},
+    {
+        success: function (pData) {$s('P63_EMPLOYEE_NAME',pData.EMPLOYEE_NAME)
+         $s('P63_COMPANY_NAME',pData.COMPANY_NAME),$s('P63_JOB_TITLE',pData.JOB_TITLE),
+         $s('P63_SALARY',pData.SALARY),$s('P63_CITY',pData.CITY),$s('P63_COUNTRY',pData.COUNTRY),
+         $s('P63_DESIGNATION',pData.DESIGNATION),$s('P63_USER_NAME',pData.USER_NAME) ;},
+       dataType: null   }
+    );
+
+     }); 
+
+
+
