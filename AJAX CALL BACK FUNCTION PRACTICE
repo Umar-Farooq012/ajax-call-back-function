@@ -32,6 +32,7 @@ end;
 
 =====================================================
 2ND STEPS 
+function and global variables
 
 $('#P63_EMPLOYEE_ID').change(function(){
     apex.server.process(
